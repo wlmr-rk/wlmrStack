@@ -11,14 +11,14 @@ type SessionPayload = {
 };
 
 function getSessionSecret() {
-  return env.SESSION_SECRET || env.TOTP_SECRET || "";
+  return env.TOTP_SECRET || "";
 }
 
 function sign(value: string) {
   const secret = getSessionSecret();
 
   if (!secret) {
-    throw new Error("SESSION_SECRET or TOTP_SECRET must be set.");
+    throw new Error("TOTP_SECRET must be set.");
   }
 
   return createHmac("sha256", secret).update(value).digest("base64url");

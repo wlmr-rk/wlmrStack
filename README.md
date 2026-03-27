@@ -46,6 +46,9 @@ Copy `.env.example` to `.env.local` and fill it in:
 ```sh
 PUBLIC_CONVEX_URL=
 PUBLIC_CONVEX_SITE_URL=
+TOTP_SECRET=
+TOTP_ISSUER=Starter App
+TOTP_LABEL=Owner
 ```
 
 Optional local CLI helper:
@@ -62,9 +65,9 @@ bun run generate-totp
 
 Then add the generated values where they belong.
 
-### 4. Set Convex env vars
+### 4. Set production server env vars
 
-Set these in Convex:
+Set these in Vercel:
 
 ```sh
 TOTP_SECRET=
@@ -72,7 +75,9 @@ TOTP_ISSUER=Starter App
 TOTP_LABEL=Owner
 ```
 
-### 5. Set Vercel env vars
+The stack uses `TOTP_SECRET` for both code verification and session signing so the setup stays one-secret and simple.
+
+### 5. Set public app env vars
 
 Set these in Vercel:
 
@@ -87,7 +92,7 @@ Update these if you want custom branding:
 
 - `package.json`
 - `src/lib/config.ts`
-- `src/convex/auth.ts`
+- `.env.example`
 - `scripts/generate-totp.ts`
 
 ### 7. Run locally
