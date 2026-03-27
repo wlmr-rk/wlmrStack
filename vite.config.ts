@@ -3,17 +3,6 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 
-// Use Bun's native env loading
-const envPrefix = 'PUBLIC_';
-const env: Record<string, string> = {};
-
-// Load all PUBLIC_ prefixed env vars from Bun
-for (const [key, value] of Object.entries(process.env)) {
-  if (key.startsWith(envPrefix) && value !== undefined) {
-    env[`process.env.${key}`] = JSON.stringify(value);
-  }
-}
-
 export default defineConfig({
   plugins: [
     tailwindcss(),
@@ -51,7 +40,6 @@ export default defineConfig({
       }
     })
   ],
-  define: env,
   build: {
     rollupOptions: {
       output: {

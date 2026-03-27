@@ -1,14 +1,5 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import { isAuthenticated } from "$lib/auth";
   import { APP_NAME } from "$lib/config";
-  import { onMount } from "svelte";
-
-  onMount(() => {
-    if (!isAuthenticated()) {
-      goto("/login");
-    }
-  });
 </script>
 
 <svelte:head>

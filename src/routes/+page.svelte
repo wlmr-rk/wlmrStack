@@ -1,8 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { signOut, isAuthenticated } from "$lib/auth";
+  import { signOut } from "$lib/auth";
   import { APP_NAME, APP_SHORT_NAME } from "$lib/config";
-  import { onMount } from "svelte";
 
   async function handleSignOut() {
     const result = await signOut();
@@ -10,12 +9,6 @@
       goto("/login");
     }
   }
-
-  onMount(() => {
-    if (!isAuthenticated()) {
-      goto("/login");
-    }
-  });
 </script>
 
 <svelte:head>

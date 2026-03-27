@@ -1,5 +1,6 @@
 <script lang="ts">
 	import './layout.css';
+	import { env } from '$env/dynamic/public';
 	import favicon from '$lib/assets/favicon.svg';
 	import BottomNav from '$lib/components/BottomNav.svelte';
 	import { page } from '$app/state';
@@ -7,8 +8,7 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		// process.env gets replaced with actual value at build time
-		const url = process.env.PUBLIC_CONVEX_URL;
+		const url = env.PUBLIC_CONVEX_URL;
 		if (!url) {
 			console.error('PUBLIC_CONVEX_URL is not set. Check your .env.local file.');
 			return;

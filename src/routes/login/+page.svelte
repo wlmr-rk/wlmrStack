@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { authenticateWithTOTP, isAuthenticated } from "$lib/auth";
+  import { authenticateWithTOTP } from "$lib/auth";
   import { goto } from "$app/navigation";
   import { APP_NAME } from "$lib/config";
   import { onMount } from "svelte";
@@ -13,11 +13,6 @@
   const sanitizeCode = (value: string) => value.replace(/\D/g, "").slice(0, CODE_LENGTH);
 
   onMount(() => {
-    if (isAuthenticated()) {
-      goto("/");
-      return;
-    }
-
     focusCodeInput();
   });
 
