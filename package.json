@@ -4,6 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"init": "bun run scripts/init.ts",
 		"dev": "bun run --bun vite dev",
 		"build": "bun run --bun vite build",
 		"preview": "vite preview",
@@ -28,6 +29,7 @@
 	"dependencies": {
 		"convex": "^1.34.1",
 		"convex-svelte": "^0.0.12",
-		"otpauth": "^9.5.0"
+		"otpauth": "^9.5.0",
+		"qrcode-terminal": "^0.12.0"
 	}
 }
