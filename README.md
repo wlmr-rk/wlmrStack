@@ -28,6 +28,7 @@ Examples:
 
 ```sh
 bun install
+bun run init
 bun run dev
 ```
 
@@ -41,11 +42,25 @@ bun install
 
 ### 2. Create local env
 
-Copy `.env.example` to `.env.local` and fill it in:
+Run the interactive initializer:
 
 ```sh
-PUBLIC_CONVEX_URL=
-PUBLIC_CONVEX_SITE_URL=
+bun run init
+```
+
+What it does:
+
+- creates `.env.local` from `.env.example` if needed
+- keeps Vercel as the default deployment target
+- generates or reuses your TOTP secret
+- prints a terminal QR code with a valid `otpauth://` payload for Google Authenticator
+- optionally prompts for `PUBLIC_CONVEX_URL`, `PUBLIC_CONVEX_SITE_URL`, and `CONVEX_DEPLOYMENT`
+- explains which values belong in local env, Vercel, and Convex
+
+If you prefer the manual path, copy `.env.example` to `.env.local` and fill it in yourself.
+
+```sh
+cp .env.example .env.local
 ```
 
 Optional local CLI helper:
@@ -60,11 +75,21 @@ CONVEX_DEPLOYMENT=
 bun run generate-totp
 ```
 
-Then add the generated values where they belong.
+This standalone helper updates `.env.local` with `TOTP_SECRET`, `TOTP_ISSUER`, and `TOTP_LABEL`.
+It also prints a terminal QR code, plus the `otpauth://` URI and raw secret as fallbacks.
 
-### 4. Set Convex env vars
+If you use `bun run init`, you usually do not need this separate step.
 
-Set these in Convex:
+Then fill in the remaining values manually if needed:
+
+```sh
+PUBLIC_CONVEX_URL=
+PUBLIC_CONVEX_SITE_URL=
+```
+
+### 4. Set production server env vars
+
+Set these in Vercel:
 
 ```sh
 TOTP_SECRET=
@@ -72,7 +97,9 @@ TOTP_ISSUER=Starter App
 TOTP_LABEL=Owner
 ```
 
-### 5. Set Vercel env vars
+The stack uses `TOTP_SECRET` for both code verification and session signing so the setup stays one-secret and simple.
+
+### 5. Set public app env vars
 
 Set these in Vercel:
 
@@ -81,13 +108,21 @@ PUBLIC_CONVEX_URL=
 PUBLIC_CONVEX_SITE_URL=
 ```
 
+What goes where:
+
+- `PUBLIC_CONVEX_URL`: your Convex deployment URL. Set it locally and in Vercel.
+- `PUBLIC_CONVEX_SITE_URL`: your app's public URL. Use your local origin in `.env.local` and your Vercel domain in Vercel.
+- `CONVEX_DEPLOYMENT`: optional local Convex CLI helper. Keep it in `.env.local` only.
+- `TOTP_SECRET`: secret used for TOTP verification and session signing. Set it locally and in Vercel.
+- `TOTP_ISSUER` and `TOTP_LABEL`: values shown inside Google Authenticator. Set them locally and in Vercel.
+
 ### 6. Rename app copy
 
 Update these if you want custom branding:
 
 - `package.json`
 - `src/lib/config.ts`
-- `src/convex/auth.ts`
+- `.env.example`
 - `scripts/generate-totp.ts`
 
 ### 7. Run locally
